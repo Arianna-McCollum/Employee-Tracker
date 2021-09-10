@@ -1,26 +1,50 @@
-const express = require('express');
-const db = require('./db/connection');
+const connection = require('./db/connection');
+const validate = require('./utils/validate');
+const inquirer = require('inquirer');
+const cTable = require('console.table');
+const chalk = require('chalk');
+const figlet = require('figlet');
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
+connection.connect((error) => {
+    if (error) throw error;
+    console.log(chalk.magenta.dim(`====================================================================================`));
+    console.log(``);
+    console.log(chalk.magentaBright.bold(figlet.textSync('Employee Tracker')));
+    console.log(``);
+    console.log(`                                                          ` + chalk.magenta.dim('Created By: Arianna McCollum'));
+    console.log(``);
+    console.log(chalk.magenta.dim(`====================================================================================`));
+    employeePrompt();
 });
 
+function employeePrompt() {
+    inquirer.prompt([
+        {
+            name: 'action',
+            type: 'list',
+            message: ' What would you like to do?',
+            choices: [
+                'View All Departments',
+                'View All Roles',
+                'View All Employees',
+                'View Employees By Manager',
+                'View Employees By Department',
+                'View Total Budget of A Department',
+                'Add A Department',
+                'Add A Role',
+                'Add An Employee',
+                'Remove A Department',
+                'Remove A Role',
+                'Remove An Employee',
+                'Update An Employee Role',
+                'Update An Employee Manager',
+                'Exit'
+            ],
+            message: ' What would you like to do?'
+        }
+    ])
+}
 
-// Start server after DB connection
-db.connect(err => {
-    if (err) throw err;
-    console.log('Database connected.');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  });
-  
-  module.exports = db;
+
+
+
