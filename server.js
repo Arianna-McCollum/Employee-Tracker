@@ -17,7 +17,7 @@ connection.connect((error) => {
     employeePrompt();
 });
 
-function employeePrompt() {
+const employeePrompt = () => {
     inquirer.prompt([
         {
             name: 'action',
@@ -29,22 +29,101 @@ function employeePrompt() {
                 'View All Employees',
                 'View Employees By Manager',
                 'View Employees By Department',
-                'View Total Budget of A Department',
-                'Add A Department',
-                'Add A Role',
-                'Add An Employee',
-                'Remove A Department',
-                'Remove A Role',
-                'Remove An Employee',
-                'Update An Employee Role',
-                'Update An Employee Manager',
+                'View Budget of A Department',
+                'Add Department',
+                'Add Role',
+                'Add Employee',
+                'Remove Department',
+                'Remove Role',
+                'Remove Employee',
+                'Update Employee Role',
+                'Update Employee Manager',
                 'Exit'
             ],
-            message: ' What would you like to do?'
         }
     ])
-}
+    .then((answers) => {
+        const {choices} = answers;
+
+        if (choices === 'View All Departments') {
+            viewAllDepartments();
+        }
+
+        // if (choices === 'View All Roles') {
+        //     viewAllRoles();
+        // }
+
+        // if (choices === 'View All Employees') {
+        //     viewAllEmployees();
+        // }
+
+        // if (choices === 'View Employees By Manager') {
+        //     viewEmployeesByManager();
+        // }
+
+        // if (choices === 'View Employees By Department') {
+        //     viewEmployeesByDepartment();
+        // }
+
+        // if (choices === 'View Budget of A Department') {
+        //     viewBudget();
+        // }
+
+        // if (choices === 'Add Department') {
+        //     addDepartment();
+        // }
+
+        // if (choices === 'Add Role') {
+        //     addRole();
+        // }
+
+        // if (choices === 'Add Employee') {
+        //     addEmployee();
+        // }
+
+        // if (choices === 'Remove Department') {
+        //     removeDepartment();
+        // }
+
+        // if (choices === 'Remove Role') {
+        //     removeRole();
+        // }
+
+        // if (choices === 'Remove Employee') {
+        //     removeEmployee();
+        // }
+
+        // if (choices === 'Update Employee Role') {
+        //     updateRole();
+        // }
+
+        // if (choices === 'Update Employee Manager') {
+        //     updateManager();
+        // }
+
+        if (choices === 'Exit') {
+            connection.end();
+        }
+
+    });
+};
 
 
+//For viewing options
+
+// View All Departments
+
+const viewAllDepartments = () => {
+    const sql = `SELECT department.id AS id, department.department_name AS department FROM department`;
+    connection.promise().query(sql, (error, response) => {
+        if (error) throw error;
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.log(`                              ` + chalk.magenta.bold(`All Departments:`));
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        employeePrompt();
+    });
+};
 
 

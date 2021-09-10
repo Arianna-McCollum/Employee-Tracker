@@ -4,7 +4,7 @@ USE tracker;
 
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  department_name VARCHAR(30) NOT NULL,
+  department_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
@@ -19,5 +19,5 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INTEGER NOT NULL,
-  manager_id INTEGER,
+  manager_id INTEGER
 );
