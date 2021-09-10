@@ -1,5 +1,5 @@
-const connection = require('./db/connection');
 const validate = require('./utils/validate');
+const connection = require('./db/connection');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const chalk = require('chalk');
@@ -43,9 +43,9 @@ const employeePrompt = () => {
         }
     ])
     .then((answers) => {
-        const {choices} = answers;
+        const { action } = answers;
 
-        if (choices === 'View All Departments') {
+        if (action === 'View All Departments') {
             viewAllDepartments();
         }
 
@@ -101,7 +101,7 @@ const employeePrompt = () => {
         //     updateManager();
         // }
 
-        if (choices === 'Exit') {
+        if (action === 'Exit') {
             connection.end();
         }
 
@@ -115,7 +115,7 @@ const employeePrompt = () => {
 
 const viewAllDepartments = () => {
     const sql = `SELECT department.id AS id, department.department_name AS department FROM department`;
-    connection.promise().query(sql, (error, response) => {
+    connection.query(sql, (error, response) => {
         if (error) throw error;
         console.log(chalk.magenta.dim(`====================================================================================`));
         console.log(`                              ` + chalk.magenta.bold(`All Departments:`));
@@ -125,5 +125,3 @@ const viewAllDepartments = () => {
         employeePrompt();
     });
 };
-
-
