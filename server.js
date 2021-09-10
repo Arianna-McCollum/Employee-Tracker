@@ -49,57 +49,57 @@ const employeePrompt = () => {
             viewAllDepartments();
         }
 
-        // if (choices === 'View All Roles') {
-        //     viewAllRoles();
-        // }
+        if (action === 'View All Roles') {
+            viewAllRoles();
+        }
 
-        // if (choices === 'View All Employees') {
-        //     viewAllEmployees();
-        // }
+        if (action === 'View All Employees') {
+            viewAllEmployees();
+        }
 
-        // if (choices === 'View Employees By Manager') {
-        //     viewEmployeesByManager();
-        // }
+        if (action === 'View Employees By Manager') {
+            viewEmployeesByManager();
+        }
 
-        // if (choices === 'View Employees By Department') {
-        //     viewEmployeesByDepartment();
-        // }
+        if (action === 'View Employees By Department') {
+            viewEmployeesByDepartment();
+        }
 
-        // if (choices === 'View Budget of A Department') {
-        //     viewBudget();
-        // }
+        if (action === 'View Budget of A Department') {
+            viewBudget();
+        }
 
-        // if (choices === 'Add Department') {
-        //     addDepartment();
-        // }
+        if (action === 'Add Department') {
+            addDepartment();
+        }
 
-        // if (choices === 'Add Role') {
-        //     addRole();
-        // }
+        if (action === 'Add Role') {
+            addRole();
+        }
 
-        // if (choices === 'Add Employee') {
-        //     addEmployee();
-        // }
+        if (action === 'Add Employee') {
+            addEmployee();
+        }
 
-        // if (choices === 'Remove Department') {
-        //     removeDepartment();
-        // }
+        if (action === 'Remove Department') {
+            removeDepartment();
+        }
 
-        // if (choices === 'Remove Role') {
-        //     removeRole();
-        // }
+        if (action === 'Remove Role') {
+            removeRole();
+        }
 
-        // if (choices === 'Remove Employee') {
-        //     removeEmployee();
-        // }
+        if (action === 'Remove Employee') {
+            removeEmployee();
+        }
 
-        // if (choices === 'Update Employee Role') {
-        //     updateRole();
-        // }
+        if (action === 'Update Employee Role') {
+            updateRole();
+        }
 
-        // if (choices === 'Update Employee Manager') {
-        //     updateManager();
-        // }
+        if (action === 'Update Employee Manager') {
+            updateManager();
+        }
 
         if (action === 'Exit') {
             connection.end();
@@ -125,3 +125,20 @@ const viewAllDepartments = () => {
         employeePrompt();
     });
 };
+
+// View All Roles
+
+const viewAllRoles = () => {
+    console.log(chalk.magenta.dim(`====================================================================================`));
+    console.log(`                              ` + chalk.magenta.bold(`All Roles:`));
+    console.log(chalk.magenta.dim(`====================================================================================`));
+    const sql =     `SELECT role.id, role.title, department.department_name AS department
+                    FROM role
+                    INNER JOIN department ON role.department_id = department.id`;
+    connection.query(sql, (error, response) => {
+      if (error) throw error;
+        response.forEach((role) => {console.log(role.title);});
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        employeePrompt();
+    });
+  };
