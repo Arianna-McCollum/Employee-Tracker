@@ -132,9 +132,11 @@ const viewAllRoles = () => {
     console.log(chalk.magenta.dim(`====================================================================================`));
     console.log(`                              ` + chalk.magenta.bold(`All Roles:`));
     console.log(chalk.magenta.dim(`====================================================================================`));
-    const sql =     `SELECT role.id, role.title, department.department_name AS department
-                    FROM role
-                    INNER JOIN department ON role.department_id = department.id`;
+    const sql =     `SELECT role.id, 
+                        role.title, 
+                        department.department_name AS department
+                        FROM role
+                        INNER JOIN department ON role.department_id = department.id`;
     connection.query(sql, (error, response) => {
       if (error) throw error;
         response.forEach((role) => {console.log(role.title);});
@@ -142,3 +144,48 @@ const viewAllRoles = () => {
         employeePrompt();
     });
   };
+
+  // View All Employees
+
+  const viewAllEmployees = () => {
+    const sql = `SELECT employee.id,
+                    employee.first_name,
+                    employee.last_name,
+                    role.title,
+                    department.department_name AS 'department',
+                    role.salary
+                    FROM employee, role, department
+                    WHERE department.id = role.department_id
+                    AND role.id = employee.role_id
+                    Order BY employee.id ASC`;
+    connection.query(sql, (error, response) => {
+        if (error) throw error;
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.log(`                              ` + chalk.magenta.bold(`All Employees:`));
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        employeePrompt();
+    });
+};
+
+// View By Department Budget
+
+const viewBudget = () => {
+  console.log(chalk.magenta.dim(`====================================================================================`));
+  console.log(`                              ` + chalk.magenta.bold(`Budget of Departments:`));
+  console.log(chalk.magenta.dim(`====================================================================================`));
+  const sql =     `SELECT department_id AS id, 
+                  department.department_name AS department,
+                  SUM(salary) AS budget
+                  FROM  role  
+                  INNER JOIN department ON role.department_id = department.id GROUP BY  role.department_id`;
+  connection.query(sql, (error, response) => {
+    if (error) throw error;
+      console.table(response);
+      console.log(chalk.magenta.dim(`====================================================================================`));
+      employeePrompt();
+  });
+};
+
+
