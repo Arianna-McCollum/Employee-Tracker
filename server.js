@@ -27,7 +27,6 @@ const employeePrompt = () => {
                 'View All Departments',
                 'View All Roles',
                 'View All Employees',
-                'View Employees By Manager',
                 'View Employees By Department',
                 'View Budget of A Department',
                 'Add Department',
@@ -55,10 +54,6 @@ const employeePrompt = () => {
 
         if (action === 'View All Employees') {
             viewAllEmployees();
-        }
-
-        if (action === 'View Employees By Manager') {
-            viewEmployeesByManager();
         }
 
         if (action === 'View Employees By Department') {
@@ -109,7 +104,7 @@ const employeePrompt = () => {
 };
 
 
-//For viewing options
+//-----------------------For viewing options
 
 // View All Departments
 
@@ -169,6 +164,27 @@ const viewAllRoles = () => {
     });
 };
 
+// View Employees By Department
+
+const viewEmployeesByDepartment = () => {
+    const sql =     `SELECT employee.first_name, 
+    employee.last_name, 
+    department.department_name AS department
+    FROM employee 
+    LEFT JOIN role ON employee.role_id = role.id 
+    LEFT JOIN department ON role.department_id = department.id`;
+    connection.query(sql, (error, response) => {
+        if (error) throw error;
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.log(`                              ` + chalk.magenta.bold(`Employees By Department:`));
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        employeePrompt();
+    });
+};
+
+
 // View By Department Budget
 
 const viewBudget = () => {
@@ -187,5 +203,30 @@ const viewBudget = () => {
       employeePrompt();
   });
 };
+
+//------------------For Adding options
+
+// Add a department
+
+const addDepartment = () => {
+    inquirer.prompt([
+        {
+            name: 'newDepartment',
+            type: 'input',
+            message: 'What is the name of the Department?',
+            validate: validate.validateString
+        }
+    ])
+    .then((answer) =>{
+        const sql = `INSERT INTO department (department_name) VALUES (?)`;
+        connection.query(sql, answer.newDepartment, (error, response) => {
+            if (error) throw error;
+            console.log(``);
+            console.log(chalk.magenta.dim(answer.newDepartment + ` Department successfully created.`));
+            console.log(``);
+            viewAllDepartments();
+        })
+    })
+}
 
 
