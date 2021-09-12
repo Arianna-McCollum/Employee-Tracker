@@ -7,8 +7,9 @@
 
   ## Table of Contents
   - [Description](#description)
-  - [Installation](#installation)
+  - [Technologies Used](#technologies used)
   - [License](#license)
+  - [Walkthrough Video](#walkthrough video) 
 
   ## Technologies Used
  - NPM
