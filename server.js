@@ -207,7 +207,7 @@ const viewEmployeesByManager = () => {
     connection.query(sql, (error, response) => {
         if (error) throw error;
         console.log(chalk.magenta.dim(`====================================================================================`));
-        console.log(`                              ` + chalk.magenta.bold(`Employees By Department:`));
+        console.log(`                              ` + chalk.magenta.bold(`Employees By Manager:`));
         console.log(chalk.magenta.dim(`====================================================================================`));
         console.table(response);
         console.log(chalk.magenta.dim(`====================================================================================`));
