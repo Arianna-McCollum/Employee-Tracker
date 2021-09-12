@@ -144,17 +144,17 @@ const viewAllRoles = () => {
   // View All Employees
 //AND employee.id = employee.manager_id
   const viewAllEmployees = () => {
-    const sql = `SELECT employee.id,
-                    employee.first_name,
-                    employee.last_name,
-                    role.title,
-                    employee.manager_id AS 'manager',
-                    department.department_name AS 'department',
-                    role.salary
-                    FROM employee, role, department
-                    WHERE department.id = role.department_id
-                    AND role.id = employee.role_id
-                    Order BY employee.id ASC`;
+    const sql = `SELECT employee.id AS Id, 
+                employee.first_name AS FirstName, 
+                employee.last_name AS LastName, 
+                role.title AS Title, 
+                department.department_name AS Department, 
+                role.salary AS Salary, 
+                CONCAT(manager.first_name, ' ', manager.last_name) AS Manager 
+                FROM employee 
+                LEFT JOIN role on employee.role_id = role.id 
+                LEFT JOIN department on role.department_id = department.id 
+                LEFT JOIN employee manager on manager.id = employee.manager_id`;
     connection.query(sql, (error, response) => {
         if (error) throw error;
         console.log(chalk.magenta.dim(`====================================================================================`));
