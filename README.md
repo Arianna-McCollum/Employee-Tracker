@@ -7,11 +7,11 @@
 
   ## Table of Contents
   - [Description](#description)
-  - [Technologies Used](#technologies used)
+  - [Technologies](#technologies)
   - [License](#license)
-  - [Walkthrough Video](#walkthrough video) 
+  - [Walkthrough](#walkthrough) 
 
-  ## Technologies Used
+  ## Technologies
  - NPM
  - Express
  - Console.table
@@ -25,7 +25,7 @@
   ![badge](https://img.shields.io/badge/license-MIT-blue)<br>
  This application uses the MIT license.
 
-  ## Walkthrough Video
+  ## Walkthrough
 https://user-images.githubusercontent.com/84581536/132969971-e8b2bb5f-2db5-4d3c-9e63-3718052b9710.mp4
 
 
