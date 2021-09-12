@@ -280,7 +280,7 @@ const addRole = () => {
         ])
         .then((answer) => {
             if (answer.departmentName === 'Create Department') {
-                this. addDepartment();
+                addDepartment();
             }else{
                 addRoleResume(answer);
             }
@@ -503,9 +503,9 @@ const updateManager = () => {
           });
 
           if (validate.isSame(answer.chosenEmployee, answer.newManager)) {
-            console.log(chalk.redBright.dim(`====================================================================================`));
+            console.log(chalk.redBright(`====================================================================================`));
             console.log(chalk.redBright(`Invalid Manager Selection`));
-            console.log(chalk.redBright.dim(`====================================================================================`));
+            console.log(chalk.redBright(`====================================================================================`));
             employeePrompt();
           } else {
             let sql = `UPDATE employee SET employee.manager_id = ? WHERE employee.id = ?`;
