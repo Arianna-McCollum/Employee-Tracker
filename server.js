@@ -29,6 +29,7 @@ const employeePrompt = () => {
                 'View All Roles',
                 'View All Employees',
                 'View Employees By Department',
+                'View Employees By Manager',
                 'View Budget of A Department',
                 'Add Department',
                 'Add Role',
@@ -59,6 +60,10 @@ const employeePrompt = () => {
 
         if (action === 'View Employees By Department') {
             viewEmployeesByDepartment();
+        }
+
+        if (action === 'View Employees By Manager') {
+            viewEmployeesByManager();
         }
 
         if (action === 'View Budget of A Department') {
@@ -174,7 +179,31 @@ const viewEmployeesByDepartment = () => {
     department.department_name AS department
     FROM employee 
     LEFT JOIN role ON employee.role_id = role.id 
-    LEFT JOIN department ON role.department_id = department.id`;
+    LEFT JOIN department ON role.department_id = department.id
+    ORDER BY department_id`;
+    connection.query(sql, (error, response) => {
+        if (error) throw error;
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.log(`                              ` + chalk.magenta.bold(`Employees By Department:`));
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.magenta.dim(`====================================================================================`));
+        employeePrompt();
+    });
+};
+
+// View Employees By Manager
+
+const viewEmployeesByManager = () => {
+    const sql =     `SELECT employee.id,
+    employee.first_name, 
+    employee.last_name, 
+    department.department_name AS department,
+    CONCAT(manager.first_name, ' ', manager.last_name) AS Manager 
+    FROM employee 
+    LEFT JOIN role ON employee.role_id = role.id 
+    LEFT JOIN department ON role.department_id = department.id
+    LEFT JOIN employee manager on manager.id = employee.manager_id ORDER BY manager`;
     connection.query(sql, (error, response) => {
         if (error) throw error;
         console.log(chalk.magenta.dim(`====================================================================================`));
